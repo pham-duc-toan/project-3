@@ -18,6 +18,10 @@ select{
     font-size: 20px;
     border-radius: 15px;
 }
+.box.focus {
+    background-color: rgb(117, 83, 19);
+    color: white;
+}
 .category{
     display: flex;
     flex-wrap: wrap;
