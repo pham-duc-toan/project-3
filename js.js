@@ -12,8 +12,9 @@ page.innerHTML = i;
 
 
 //đếm trang
-function demtrang() {
-    fetch(str0)
+
+async function demtrang() {
+    await fetch(str0)
         .then((res) => res.json())
         .then((res) => {
             cnt = 0;
@@ -25,21 +26,46 @@ function demtrang() {
             soTrang = (cnt - 1) / 6 + 1;
             // console.log(`sotrang =  ${soTrang}`);
         })
-
-    // console.log(soTrang);
-    // console.log("demtrang");
 }
-
 //xây dựng hàm load lại danh mục sản phẩm
-function fetchapi(str) {
-    fetch(str)
+// async function fetchapi(str) {
+//     await fetch(str)
+//         .then((res) => res.json())
+//         .then((res) => {
+
+//             const newArray = res.map((item) => {
+
+//                 return `
+//         <div class="inner-item">
+//             <img src="${item.thumbnail}" alt="">
+//             <div class="title">${item.title}</div>
+//             <div class="dc">${item.discountPercentage}</div>
+//             <div class="gia">
+//                 <div class="price">${item.price}$</div>
+//                 <div class="slcl">con lai : ${item.stock} sp</div>
+//             </div>
+//         </div>
+        
+//             `;
+//             })
+
+//             const htmls = newArray.join("");
+//             const list = document.querySelector(".list");
+//             list.innerHTML = htmls;
+//             console.log(str);
+//             // console.log(i);
+//             demtrang();
+//         })
+// }
+async function fetchapi(str) {
+    await fetch(str)
         .then((res) => res.json())
         .then((res) => {
 
             const newArray = res.map((item) => {
 
                 return `
-            <div class="inner-item">
+        <div class="inner-item">
             <img src="${item.thumbnail}" alt="">
             <div class="title">${item.title}</div>
             <div class="dc">${item.discountPercentage}</div>
@@ -90,45 +116,45 @@ fetch("http://localhost:3000/category")
 
         // console.log("xay dung danh muc sp");
     })
-    .then( () => {
+    .then(() => {
         //Lọc theo danh mục sản phẩm
         // Thêm thuộc tính focus
         function focus(x, xcu) {
             xcu.classList.remove("focus");
             x.classList.add("focus");
         }
-        const box =  document.querySelectorAll(".box");
-        const buttonAll =  document.querySelector("#all");
-         buttonAll.classList.add("focus");
-        var xcu =  buttonAll;
+        const box = document.querySelectorAll(".box");
+        const buttonAll = document.querySelector("#all");
+        buttonAll.classList.add("focus");
+        var xcu = buttonAll;
 
         // console.log(box);
 
 
 
-         box.forEach(x => x.addEventListener("click",async (e) => {
+        box.forEach(x => x.addEventListener("click", async (e) => {
             if (e.target.id != "all") {
-                str = thaythestring(`&category=`, `&category=${e.target.id}`, str);
-                str0 = thaythestring(`&category=`, `&category=${e.target.id}`, str0);
-                focus(e.target, xcu);
-                xcu = e.target;
-                demtrang();
-                chuyentrang(i, 1);
+                // str = thaythestring(`&category=`, `&category=${e.target.id}`, str);
+                // str0 = thaythestring(`&category=`, `&category=${e.target.id}`, str0);
+                // focus(e.target, xcu);
+                // xcu = e.target;
+                // demtrang();
+                // chuyentrang(i, 1);
+                // i = 1;
+                // page.innerHTML = i;
+                // ? 
+                 console.log("str1");
+                await chuyentrang(i, 1);
                 i = 1;
                 page.innerHTML = i;
-                // ? 
-                // await console.log("str1");
-                // await chuyentrang(i, 1);
-                // i =await 1;
-                // page.innerHTML =await i;
-                // str =await thaythestring(`&category=`, `&category=${e.target.id}`, str);
-                // str0 =await thaythestring(`&category=`, `&category=${e.target.id}`, str0);
-                // await focus(e.target, xcu);
-                // xcu =await e.target;
-                // await demtrang();
-                // await console.log("str2");
-                // await fetchapi(str);
-                
+                str = await thaythestring(`&category=`, `&category=${e.target.id}`, str);
+                str0 = await thaythestring(`&category=`, `&category=${e.target.id}`, str0);
+                focus(e.target, xcu);
+                xcu = e.target;
+                await demtrang();
+                 console.log("str2");
+                await fetchapi(str);
+
             } else {
                 str0 = `http://localhost:3000/products?`;
                 str = `http://localhost:3000/products?_page=${i}&_limit=6`;
@@ -185,12 +211,20 @@ sort.onchange = (eve) => {
     // console.log("dropdown sort");
 }
 //chuyển trang
-function chuyentrang(truoc, sau) {
+// async function chuyentrang(truoc, sau) {
+//     let tmp = "page=" + truoc;
+//     let tmp2 = "page=" + sau;
+//     str = str.replace(tmp, tmp2);
+//     page.innerHTML = sau;
+//     await fetchapi(str);
+//     console.log("chuyentrang");
+// }
+async function chuyentrang(truoc, sau) {
     let tmp = "page=" + truoc;
     let tmp2 = "page=" + sau;
     str = str.replace(tmp, tmp2);
     page.innerHTML = sau;
-    fetchapi(str);
+    await fetchapi(str);
     console.log("chuyentrang");
 }
 //phân trang
